@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bistro Menü</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .lang-switch {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .menu-section {
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .menu-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ccc;
+    }
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    .menu-name {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .menu-description {
+      font-size: 14px;
+      color: #555;
+    }
+    .menu-price {
+      font-size: 16px;
+      float: right;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bistro Speisekarte</h1>
+  <div class="lang-switch">
+    <button onclick="switchLang('de')">Deutsch</button>
+    <button onclick="switchLang('en')">English</button>
+    <button onclick="switchLang('ko')">한국어</button>
+  </div>
+  <div class="lang-switch">
+    <h2>Menü hinzufügen (Admin)</h2>
+    <form id="add-form">
+      <select id="lang-select">
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+        <option value="ko">한국어</option>
+      </select><br><br>
+      <input type="text" id="new-name" placeholder="Name" required><br><br>
+      <input type="text" id="new-desc" placeholder="Beschreibung / Description / 설명"><br><br>
+      <input type="text" id="new-price" placeholder="Preis / Price / 가격" required><br><br>
+      <button type="submit">Hinzufügen / Add</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('add-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const lang = document.getElementById('lang-select').value;
+      const name = document.getElementById('new-name').value;
+      const desc = document.getElementById('new-desc').value;
+      const price = document.getElementById('new-price').value;
+
+      if (!menuData[lang]) menuData[lang] = [];
+      menuData[lang].push({ name: name, desc: desc, price: price });
+
+      switchLang(lang);
+
+      // Eingabefelder leeren
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-desc').value = '';
+      document.getElementById('new-price').value = '';
+    });
+  </script>
+
+
+  <div id="menu" class="menu-section"></div>
+
+  <script>
+    const menuData = {
+      de: [
+        { name: "Pinsa nature (IT)", desc: "Öl, Rosmarin, Salz", price: "CHF 9.50" },
+        { name: "Pinsa Pizza (IT)", desc: "Sugo, Mozzarella, Schinken (CH)", price: "CHF 14.50" },
+        { name: "Pinsa Dagmer (IT)", desc: "Sugo, Mozzarella, Dagmersellerli (CH)", price: "CHF 16.50" },
+        { name: "½ Chnoblibrot Bläsi­hof", desc: "Butter, Käse, Knoblauch, Kräuter, Salz", price: "CHF 9.50" },
+        { name: "Schinken-Käse-Toast (AT)", desc: "", price: "CHF 12.50" },
+        { name: "3 Chicken Nuggets mit Pommes", desc: "für Kinder", price: "CHF 9.50" },
+        { name: "Mini Dagmersellerli Plättli (CH)", desc: "Chipeñosauce, Käse, Brot (CH) & Essigg­emüse", price: "CHF 18.50" },
+        { name: "Speck Plättli (CH)", desc: "dicker Speckstreifen zum selber schneiden mit Käse, Brot und Essigg­emüse", price: "CHF 18.50" },
+        { name: "gemischter Salatteller", desc: "", price: "CHF 18.50" },
+        { name: "Dagmersellerli vom Grill (mit Brot CH)", desc: "", price: "CHF 12.50" },
+        { name: "Waldfest Cervelat", desc: "vom Grill oder kalt mit Brot (CH)", price: "CHF 9.50" }
+      ],
+      en: [
+        { name: "Pinsa nature (IT)", desc: "Oil, rosemary, salt", price: "CHF 9.50" },
+        { name: "Pinsa Pizza (IT)", desc: "Tomato sauce, mozzarella, ham (CH)", price: "CHF 14.50" },
+        { name: "Pinsa Dagmer (IT)", desc: "Tomato sauce, mozzarella, Dagmersellerli (CH)", price: "CHF 16.50" },
+        { name: "½ Chnoblibrot Bläsi­hof", desc: "Butter, cheese, garlic, herbs, salt", price: "CHF 9.50" },
+        { name: "Ham-Cheese Toast (AT)", desc: "", price: "CHF 12.50" },
+        { name: "3 Chicken Nuggets with fries", desc: "for kids", price: "CHF 9.50" },
+        { name: "Mini Dagmersellerli Platter (CH)", desc: "Chipeño sauce, cheese, bread (CH) & pickled vegetables", price: "CHF 18.50" },
+        { name: "Bacon Platter (CH)", desc: "Thick bacon slices to cut yourself with cheese, bread, and pickled vegetables", price: "CHF 18.50" },
+        { name: "Mixed salad plate", desc: "", price: "CHF 18.50" },
+        { name: "Grilled Dagmersellerli (with bread CH)", desc: "", price: "CHF 12.50" },
+        { name: "Waldfest Cervelat", desc: "Grilled or cold with bread (CH)", price: "CHF 9.50" }
+      ],
+      ko: [
+        { name: "핀사 네이처 (이탈리아)", desc: "오일, 로즈마리, 소금", price: "CHF 9.50" },
+        { name: "핀사 피자 (이탈리아)", desc: "토마토 소스, 모짜렐라, 햄 (스위스)", price: "CHF 14.50" },
+        { name: "핀사 다그머 (이탈리아)", desc: "토마토 소스, 모짜렐라, 다그머젤러리 (스위스)", price: "CHF 16.50" },
+        { name: "½ 마늘빵 블래지호프", desc: "버터, 치즈, 마늘, 허브, 소금", price: "CHF 9.50" },
+        { name: "햄치즈 토스트 (오스트리아)", desc: "", price: "CHF 12.50" },
+        { name: "치킨 너겟 3개와 감자튀김", desc: "어린이용", price: "CHF 9.50" },
+        { name: "미니 다그머젤러리 플래틀리", desc: "치페뇨 소스, 치즈, 빵, 피클 야채", price: "CHF 18.50" },
+        { name: "베이컨 플래틀리", desc: "직접 썰어 먹는 두툼한 베이컨, 치즈, 빵, 피클 야채 포함", price: "CHF 18.50" },
+        { name: "혼합 샐러드 접시", desc: "", price: "CHF 18.50" },
+        { name: "그릴에 구운 다그머젤러리 + 빵", desc: "", price: "CHF 12.50" },
+        { name: "숲축제 체르벨라트", desc: "그릴 또는 차갑게, 빵과 함께 제공", price: "CHF 9.50" }
+      ]
+    };
+
+    function switchLang(lang) {
+      const menuDiv = document.getElementById('menu');
+      menuDiv.innerHTML = '';
+      menuData[lang].forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+          <div class='menu-name'>
+            ${item.name}
+            <span class='menu-price'>${item.price}</span>
+          </div>
+          <div class='menu-description'>${item.desc}</div>
+        `;
+        menuDiv.appendChild(div);
+      });
+    }
+
+    // 초기 언어 설정 (독일어)
+    switchLang('de');
+  </script>
+</body>
+</html>
